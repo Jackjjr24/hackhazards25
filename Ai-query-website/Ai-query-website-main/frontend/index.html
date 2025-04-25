@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Database Interface</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+      <div class="nav-tabs">
+        <button class="tab active" onclick="switchTab('chat')">Chat</button>
+        <button class="tab" onclick="switchTab('er')">ER Diagram</button>
+        <button class="tab" onclick="switchTab('visual')">Data Visualization</button>
+      </div>
+      <div class="user-info">
+        <span>Logged in as admin@gmail.com</span>
+        <button class="logout-btn">Logout</button>
+      </div>
+    </nav>
+
+    <!-- Sidebar with all dropdowns -->
+    <aside class="sidebar">
+      <!-- 1. Database Configuration -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-header" onclick="toggleDropdown(this)">Database Configuration <span class="dropdown-icon">▼</span></h3>
+        <div class="sidebar-content active">
+          <div class="form-group"><label>Type</label><select id="dbType"><option>MySQL</option><option>PostgreSQL</option></select></div>
+          <div class="form-group"><label>Host</label><input id="host" value="127.0.0.1"></div>
+          <div class="form-group"><label>Port</label><input id="port" value="3306"></div>
+          <div class="form-group"><label>User</label><input id="username" placeholder="root"></div>
+          <div class="form-group"><label>Password</label><input id="password" type="password"></div>
+          <div class="form-group"><label>DB Name</label><input id="dbname" placeholder="Client_data_db"></div>
+          <div class="button-group">
+            <button class="primary-btn" onclick="connectDB()">Connect</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Create Database -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-header" onclick="toggleDropdown(this)">Create Database <span class="dropdown-icon">▼</span></h3>
+        <div class="sidebar-content">
+          <div class="form-group"><label>New Database Name</label><input id="createDbName" placeholder="New DB Name" /></div>
+          <div class="button-group">
+            <button class="primary-btn" onclick="createDatabase()">Create</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Load Database -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-header" onclick="toggleDropdown(this)">Load Database <span class="dropdown-icon">▼</span></h3>
+        <div class="sidebar-content">
+          <div class="form-group"><label>Select SQL File</label><input type="file" id="sqlFile" accept=".sql" /></div>
+          <div class="button-group">
+            <button class="primary-btn" onclick="loadDatabase()">Load</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Database Snapshot -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-header" onclick="toggleDropdown(this)">Database Snapshot <span class="dropdown-icon">▼</span></h3>
+        <div class="sidebar-content">
+          <div class="form-group"><label>Snapshot File Name</label><input id="snapshotName" placeholder="snapshot.sql" /></div>
+          <div class="button-group">
+            <button class="primary-btn" onclick="createSnapshot()">Create</button>
+            <button class="secondary-btn" onclick="restoreSnapshot()">Restore</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. View Chat History -->
+      <div class="sidebar-section">
+        <h3 class="sidebar-header" onclick="toggleDropdown(this)">View Chat History <span class="dropdown-icon">▼</span></h3>
+        <div class="sidebar-content">
+          <div class="button-group">
+            <button class="primary-btn" onclick="viewHistory()">View</button>
+            <button class="secondary-btn" onclick="clearHistory()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Area -->
+    <main class="content-area">
+      <!-- Chat Tab -->
+      <section id="chat" class="tab-content active">
+        <div class="welcome-section">
+          <h1>Welcome!</h1>
+          <p>Let's Start</p>
+        </div>
+        <div class="quick-queries">
+          <div class="query-chip" onclick="quickQuery('give me available table name')">List all tables</div>
+          <div class="query-chip" onclick="quickQuery('DESCRIBE users')">Describe 'users' table</div>
+          <div class="query-chip" onclick="quickQuery('SELECT COUNT(*) FROM products')">Count in products</div>
+        </div>
+        <div id="resultsContainer" class="results-container"></div>
+        <div class="chat-controls">
+          <div class="voice-toggle">
+            <input type="checkbox" id="voiceToggle">
+            <label for="voiceToggle">Enable Voice Output</label>
+          </div>
+          <div class="chat-input-container">
+            <input id="queryInput" placeholder="Chat With Your Database" />
+            <button class="send-btn" onclick="sendQuery()">Send</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ER Diagram Tab -->
+      <section id="er" class="tab-content">
+        <button onclick="getER()">Generate ER Diagram</button>
+        <img id="erImage" style="margin-top: 20px; max-width: 100%; display: none;" />
+      </section>
+
+      <!-- Visualization Tab -->
+      <section id="visual" class="tab-content">
+        <h2>Data Visualization (Coming Soon)</h2>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
