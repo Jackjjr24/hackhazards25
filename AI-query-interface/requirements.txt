@@ -1,0 +1,16 @@
+pandas
+python-dotenv
+streamlit
+SpeechRecognition
+pyttsx3
+langchain-core
+langchain-community
+langchain-groq
+SQLAlchemy
+psycopg2-binary
+pyrebase4
+graphviz
+matplotlib
+seaborn
+plotly
+numpy
